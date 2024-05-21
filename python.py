@@ -13,6 +13,7 @@ FOOD_COLOR = "#FF0000"   #sarkans
 BAD_FOOD_COLOR = "#FFFF00" #dzeltens
 BACKGROUND_COLOR = "#000000" #melns
 
+#cūskas dizains
 class Snake:
     def __init__(self):
         self.body_size = BODY_PARTS
@@ -26,6 +27,7 @@ class Snake:
             square = canvas.create_rectangle(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=SNAKE_COLOR, tag="snake")
             self.squares.append(square)
 
+#ēdieni
 class Food:
     def __init__(self, color):
         self.color = color
@@ -47,7 +49,7 @@ class Food:
 def next_turn(snake, food, bad_food):
     global score
 
-
+#kontroles
     x, y = snake.coordinates[0]
 
     if direction == "up":
@@ -59,7 +61,7 @@ def next_turn(snake, food, bad_food):
     elif direction == "right":
         x += SPACE_SIZE
 
-    
+ #teleportēšana ja tiek tuvu sienai   
     if x < 0:
         x = GAME_WIDTH - SPACE_SIZE
     elif x >= GAME_WIDTH:
@@ -75,7 +77,7 @@ def next_turn(snake, food, bad_food):
 
     snake.squares.insert(0, square)
 
-
+#punktu skaitīšana
     if x == food.coordinates[0] and y == food.coordinates[1]:
         score += 1
         label.config(text="Score:{}".format(score))
@@ -97,6 +99,7 @@ def next_turn(snake, food, bad_food):
         canvas.delete(snake.squares[-1])
         del snake.squares[-1]
 
+#collisions ar čūsku
     if check_collisions(snake):
         game_over()
     else:
@@ -128,7 +131,7 @@ def check_collisions(snake):
             return True
 
     return False
-
+#game over ekrāns un restartēšanas funkcija
 def game_over():
     canvas.delete(ALL)
     canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2,
